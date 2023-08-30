@@ -1,1 +1,75 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Spinning Cube with Three.js</title><link rel="stylesheet" href="./index.2be5c08d.css"></head><body> <script></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> <script src="./index.2f8c003f.js" type="module"></script> <div class="container"> <div class="icon" id="icon-1" onclick="sidebarXToTop('sidebar1')"></div> <div class="icon" id="icon-2" onclick="sidebarXToTop('sidebar2')"></div> <div class="icon" id="icon-3" onclick="sidebarXToTop('sidebar3')"></div> <div class="icon" id="icon-4" onclick="sidebarXToTop('sidebar4')"></div> <div class="icon" id="icon-5" onclick="sidebarXToTop('sidebar5')"></div> <div class="icon" id="icon-6" onclick="sidebarXToTop('sidebar6')"></div> <div id="sidebar1" class="sidebar"> <p>GEOMETRY</p> <p>Main/Side</p> <p>Main</p> <p><input class="input1" id="main-width" value="2"> <text>Width</text></p> <p><input class="input1" id="main-height" value="2"> <text>Height</text></p> <p><input class="input1" id="main-thk" value="2"> <text>Thickness</text> </p> <p><input class="input1" id="main-count" value="2"> <text>Count</text> </p> <p>side</p> <p><input class="input1" id="side-width"> <text>Width</text></p> <p><input class="input1" id="side-height"> <text>Height</text></p> <p><input class="input1" id="side-thk"> <text>Thickness</text> </p> <p></p> <p>Fastener</p> <p><input class="input1"> @ <input class="input1"> O.C.<text> Rows</text></p> <p><input class="input1"> @ <input class="input1"> O.C.<text> Cols</text></p> <p><input type="checkbox"> Staggered?</p> <button id="sidebar1Button">Go</button> </div> <div id="sidebar2" class="sidebar"> <p>Fastener</p> <p><input class="input1"><text> in Diameter</text></p> </div> <div id="sidebar3" class="sidebar"></div> <div id="sidebar4" class="sidebar"></div> <div id="sidebar5" class="sidebar"></div> <div id="sidebar6" class="sidebar"></div> <div id="canvas-container" type="module"></div> <div id="sidebarR" class="sidebar"></div> </div> </body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spinning Cube with Three.js</title>
+  <link rel="stylesheet" href="./index.1303bb05.css">
+</head>
+<body>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+
+  <script>function sidebarXToTop(sidebarX) {
+    const sidebars = document.querySelectorAll(".sidebar");
+    sidebars.forEach((element)=>element.style.zIndex = 1);
+    document.getElementById(sidebarX).style.zIndex = 10;
+}
+
+</script>
+
+<script src="./index.63aff760.js" defer=""></script>
+
+  <div class="container">     
+    <div class="icon" id="icon-1" onclick="sidebarXToTop('sidebar1')"></div>
+    <div class="icon" id="icon-2" onclick="sidebarXToTop('sidebar2')"></div>
+    <div class="icon" id="icon-3" onclick="sidebarXToTop('sidebar3')"></div>
+    <div class="icon" id="icon-4" onclick="sidebarXToTop('sidebar4')"></div>
+    <div class="icon" id="icon-5" onclick="sidebarXToTop('sidebar5')"></div>
+    <div class="icon" id="icon-6" onclick="sidebarXToTop('sidebar6')"></div>
+
+    <div id="sidebar1" class="sidebar">
+      <p>GEOMETRY</p>
+      <p>Main/Side</p>
+      <p>Main</p>
+      <p><input class="input1" id="main-width" value="14"> <text>Width</text></p>
+      <p><input class="input1" id="main-height" value="78"> <text>Height</text></p>
+      <p><input class="input1" id="main-thk" value="2"> <text>Thickness</text> </p>    
+      <p><input class="input1" id="main-count" value="4"> <text>Count</text> </p> 
+      
+      <p>side</p>
+      <p><input class="input1" id="side-width"> <text>Width</text></p>
+      <p><input class="input1" id="side-height"> <text>Height</text></p>
+      <p><input class="input1" id="side-thk" value="1"> <text>Thickness</text> </p> 
+
+
+      <p></p>
+      <p>Fastener</p>
+      <p><input class="input1"> @ <input class="input1"> O.C.<text> Rows</text></p>
+      <p><input class="input1"> @ <input class="input1"> O.C.<text> Cols</text></p>
+      <p><input type="checkbox"> Staggered?</p>
+
+      <button id="sidebar1Button">Go</button>
+    </div>
+   
+    <div id="sidebar2" class="sidebar">
+      <p>Fastener</p>
+      <p><input class="input1"><text> in Diameter</text></p>
+    </div>
+
+    <div id="sidebar3" class="sidebar"></div>
+    <div id="sidebar4" class="sidebar"></div>
+    <div id="sidebar5" class="sidebar"></div>
+    <div id="sidebar6" class="sidebar"></div>
+
+
+    <div id="canvas-container" type="module"></div>
+    <div id="sidebarR" class="sidebar"></div>
+  </div>
+
+ 
+</body>
+</html>
