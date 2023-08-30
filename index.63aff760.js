@@ -574,59 +574,130 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"adjPd":[function(require,module,exports) {
+// import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
+// // Set up the scene, camera, and renderer
+// const scene = new THREE.Scene();
+// const camera = new THREE.PerspectiveCamera(50, window.innerWidth/ window.innerHeight, 0.1, 500);
+// const renderer = new THREE.WebGLRenderer();
+// document.getElementById("canvas-container").appendChild(renderer.domElement);
+// // Function to handle window resize
+// const onWindowResize = () => {
+//   camera.aspect = (window.innerWidth-400) / (window.innerHeight) ;
+//   camera.updateProjectionMatrix();
+//   renderer.setSize(window.innerWidth-400, window.innerHeight);
+// };
+// // Function to initialize the scene
+// const init = () => {
+//   const orb = new OrbitControls(camera, renderer.domElement);
+//   orb.update();
+//   // Create a cube
+//   const geometry = new THREE.BoxGeometry(1,1,1);
+//   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+//   var cube = new THREE.Mesh(geometry, material);
+//   scene.add(cube);
+//   console.log(cube.goemetry);
+//   function changeCubeDimensions(){
+//     var inputValX = parseFloat(document.querySelector("#main-width").value);
+//     var inputValY = parseFloat(document.querySelector("#main-height").value);
+//     var inputValZ = parseFloat(document.querySelector("#main-thk").value);
+//     cube.scale.set(inputValX,inputValY,inputValZ); 
+//   }
+//   // Add event listener to the button
+// const button = document.getElementById("sidebar1Button");
+// button.addEventListener("click", changeCubeDimensions);
+//   // Position the camera
+//   camera.position.z = 5;
+//   // Call the resize function to set the initial size
+//   onWindowResize();
+//   // Animate the cube rotation and orbt
+//   //in this case, rotation has been turned off
+//   const animate = () => {
+//     requestAnimationFrame(animate);
+//     // cube.rotation.x += 0.01;
+//     // cube.rotation.y += 0.01;
+//     renderer.render(scene, camera);
+//   };
+//   // Start the animation loop
+//   animate();
+// };
+// // Call the init function to set up the scene
+// init();
+// // Listen for window resize events
+// window.addEventListener("resize", onWindowResize);
+var _three = require("three");
+// All Other stuff must come after the above^^
+//Instatiate Orbit Tools
 var _orbitControlsJs = require("three/examples/jsm/controls/OrbitControls.js");
-// Set up the scene, camera, and renderer
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 500);
-const renderer = new THREE.WebGLRenderer();
+//1) Construct Renderer. camera scene
+const renderer = new _three.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+// document.body.appendChild( renderer.domElement );
 document.getElementById("canvas-container").appendChild(renderer.domElement);
-// Function to handle window resize
-const onWindowResize = ()=>{
-    camera.aspect = (window.innerWidth - 400) / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth - 400, window.innerHeight);
+const scene = new _three.Scene();
+const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const orb = new (0, _orbitControlsJs.OrbitControls)(camera, renderer.domElement);
+orb.update();
+//This bit animates the rotating box
+const animateOrbit = function() {
+    requestAnimationFrame(animateOrbit);
+    renderer.render(scene, camera);
 };
-// Function to initialize the scene
-const init = ()=>{
-    const orb = new (0, _orbitControlsJs.OrbitControls)(camera, renderer.domElement);
-    orb.update();
-    // Create a spinning cube
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({
-        color: 0x00ff00
+animateOrbit();
+//Create a Box
+const geometry = new _three.BoxGeometry();
+const material = new _three.MeshBasicMaterial({
+    color: 0x00ff00
+});
+const cube = new _three.Mesh(geometry, material);
+cube.translateX(10);
+scene.add(cube);
+//Create an array of boxes:------------------------------
+function boxMaker() {
+    //gather relevant inputs for geometry of side members and main members
+    //
+    var mainThk = parseFloat(document.querySelector("#main-thk").value);
+    var mainWidth = parseFloat(document.querySelector("#main-width").value);
+    var mainHeight = parseFloat(document.querySelector("#main-height").value);
+    var mainCt = parseFloat(document.querySelector("#main-count").value);
+    var sideThk = parseFloat(document.querySelector("#side-thk").value);
+    var sideWidth = parseFloat(document.querySelector("#side-width").value);
+    var sideHeight = parseFloat(document.querySelector("#side-height").value);
+    //Main Members
+    //
+    var geometryMain = new _three.BoxGeometry(mainThk, mainHeight, mainWidth);
+    var material1 = new _three.MeshBasicMaterial({
+        color: 0x00ff44
     });
-    var cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-    console.log(cube.goemetry);
-    function doubleCubeDimensions() {
-        var inputValX = parseFloat(document.querySelector("#input-val-x").value);
-        var inputValY = parseFloat(document.querySelector("#input-val-y").value);
-        var inputValZ = parseFloat(document.querySelector("#input-val-z").value);
-        cube.scale.set(inputValX, inputValY, inputValZ);
+    //initial offset so does not start in middle.
+    var xOffset = (mainCt * mainThk + (mainCt - 1) * sideThk) * 0.5;
+    var heightOffset = mainHeight / 2;
+    //Make Main Members
+    for(var i = 0; i < mainCt; i++){
+        var mesh = new _three.Mesh(geometryMain, material1);
+        mesh.position.x = (mainThk + sideThk) * i - xOffset + mainThk / 2;
+        mesh.position.y = heightOffset;
+        scene.add(mesh);
     }
-    // Add event listener to the button
-    const button = document.getElementById("sidebar1Button");
-    button.addEventListener("click", doubleCubeDimensions);
-    // Position the camera
-    camera.position.z = 5;
-    // Call the resize function to set the initial size
-    onWindowResize();
-    // Animate the cube rotation
-    const animate = ()=>{
-        requestAnimationFrame(animate);
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-        renderer.render(scene, camera);
-    };
-    // Start the animation loop
-    animate();
-};
-// Call the init function to set up the scene
-init();
-// Listen for window resize events
-window.addEventListener("resize", onWindowResize);
+}
+//End array of boxes-------------------------------------
+// Add event listener to the button
+const button = document.getElementById("sidebar1Button");
+button.addEventListener("click", boxMaker);
+camera.position.z = 50;
+//AxesHelper
+//Green = Y, Red = X,  Blue = Z
+const axeshelper = new _three.AxesHelper(5);
+scene.add(axeshelper);
+renderer.render(scene, camera);
+//Stick this function at the end: 
+//it will auto re-center the scene if the window is resized
+window.addEventListener("resize", function() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
-},{"three/examples/jsm/controls/OrbitControls.js":"7mqRv"}],"7mqRv":[function(require,module,exports) {
+},{"three/examples/jsm/controls/OrbitControls.js":"7mqRv","three":"ktPTu"}],"7mqRv":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "OrbitControls", ()=>OrbitControls);
